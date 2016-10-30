@@ -1,0 +1,23 @@
+version: '2'
+services:
+  eureka:
+    image: bachproef/eureka
+    ports:
+      - "8761:8761"
+    expose:
+      - "8761"
+  
+  zipkin:
+    image: bachproef/zipkin
+    ports:
+      - "9411:9411"
+  
+  ms-service-1:
+    image: bachproef/ms-service-1
+    ports:
+      - "::8080"
+      
+  ms-service-2:
+    image: bachproef/ms-service-2
+    ports:
+      - "::8080"
