@@ -12,6 +12,7 @@
 % 4) pdflatex naam_voornaam_voorstel.tex (1 keer)
 
 \documentclass[fleqn,10pt]{voorstel}
+\usepackage{pgfplots}
 
 %------------------------------------------------------------------------------
 % Metadata over het artikel
@@ -116,17 +117,43 @@ Onderzoeken rond distributed tracing systemen zijn schaars, maar de technologie�
 
 Dit onderzoek stelt een microservices architectuur op door gebruik te maken van Spring Boot en Docker. Elke microservice is een Spring Boot applicatie die draait in zijn eigen Docker container. Met Docker Compose worden de verschillende containers opgestart. Voor de tracing wordt gebruik gemaakt van Spring Cloud Sleuth. Er wordt uitgelegd wat traces precies zijn en hoe Sleuth requests volgt doorheen de microservices. Om de data te verzamelen en te visualiseren wordt Zipkin gebruikt. Voor log aggregatie en visualisatie wordt gebruik gemaakt van ElasticSearch, Logstash en Kibana. \\
 
+Er zullen performantietesten worden uitgevoerd om uit te zoeken hoezeer het systeem belast wordt door tracing toe te voegen aan requests. Een succesvolle sampling strategie zou niet voor merkbare vertraging mogen zorgen ($<2$\% vertraging). Eenvoudige sampling is percentueel gewijs te onderzoeken: wat is de vertraging als er $\frac{1}{1}$ tracing wordt toegevoegd, $\frac{1}{2}$, $\frac{1}{4}$... 
+Maar dit hangt dan ook af van situatie tot situatie. Voor een drukke webservice met veel requests per seconde en veel verschillende microservices zal een andere sampling strategie nodig zijn dan een eenvoudigere setup die niet veel requests per seconde ontvangt. Er worden ook complexere strategieën gedefinieerd qua sampling. In plaats van percentueel, enkel alle 500 requests tracen bijvoorbeeld. Er worden zo een aantal use cases uitgezocht en op die manier worden de gevolgen aangetoond van een goede sampling strategie op basis van situatie. \\
+
 %---------- Verwachte resultaten ----------------------------------------------
 \section{Verwachte resultaten}
 \label{sec:verwachte_resultaten}
 
-\begin{itemize}
-\item De performantietesten dienen om uit te zoeken hoezeer het systeem belast wordt door tracing toe te voegen aan requests. Een succesvolle sampling strategie zou niet voor merkbare vertraging mogen zorgen ($<2$\% vertraging). Eenvoudige sampling is percentueel gewijs te onderzoeken: wat is de vertraging als er $\frac{1}{1}$ tracing wordt toegevoegd, $\frac{1}{2}$, $\frac{1}{4}$... 
-Maar dit hangt dan ook af van situatie tot situatie. Voor een drukke webservice met veel requests per seconde en veel verschillende microservices zal een andere sampling strategie nodig zijn dan een eenvoudigere setup die niet veel requests per seconde ontvangt. Er worden ook complexere strategieën gedefinieerd qua sampling. In plaats van percentueel, enkel alle 500 requests tracen bijvoorbeeld. Er worden zo een aantal use cases uitgezocht en op die manier worden de gevolgen aangetoond van een goede sampling strategie op basis van situatie.
-\item De visualisatie van tracing en logging zou de meerwaarde van Zipkin en Kibana schetsen.
-\item De voordelen beschrijven die tracing toevoegt in een microservice architectuur.
-\item De tekortkomingen beschrijven van distributed tracing.
-\end{itemize}
+Voor de percentuele sampling wordt verwacht dat hoe hoger de sampling frequentie, hoe zwaarder het systeem belast zal worden.
+
+\begin{tikzpicture}
+\begin{axis}[
+    title={Vertraging met percentuele sampling},
+    xlabel={Sampling frequentie},
+    ylabel={Vertraging (\%)},
+    xmin=0, xmax=0.6,
+    ymin=0, ymax=20,
+    xtick={0,0.0625,0.125,0.25,0.5},
+    ytick={0,5,10,15,20},
+    xticklabel style={/pgf/number format/.cd,frac,frac TeX=\displaystyle\frac},
+    legend pos=north west,
+    ymajorgrids=true,
+    grid style=dashed,
+    xlabel near ticks,
+    ylabel near ticks
+]
+ 
+\addplot[
+    color=blue,
+    mark=square,
+    ]
+    coordinates {(0.0625,2.12)(0.125,4.12)(0.25,6.38)(0.5,9.4)};
+ 
+\end{axis}
+\end{tikzpicture}
+\\\\
+
+Verder wordt verwacht dat de visualisatie van tracing en logging de meerwaarde van Zipkin en Kibana zou schetsen en de voor- en nadelen van tracing aangetoond worden in verschillende situaties. \\
 
 %---------- Verwachte conclusies ----------------------------------------------
 \section{Verwachte conclusies}
