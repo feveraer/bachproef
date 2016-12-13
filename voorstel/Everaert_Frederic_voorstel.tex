@@ -12,7 +12,6 @@
 % 4) pdflatex naam_voornaam_voorstel.tex (1 keer)
 
 \documentclass[fleqn,10pt]{voorstel}
-\usepackage{pgfplots}
 
 %------------------------------------------------------------------------------
 % Metadata over het artikel
@@ -124,42 +123,13 @@ Maar dit hangt dan ook af van situatie tot situatie. Voor een drukke webservice 
 \section{Verwachte resultaten}
 \label{sec:verwachte_resultaten}
 
-Voor de percentuele sampling wordt verwacht dat hoe hoger de sampling frequentie, hoe zwaarder het systeem belast zal worden.
-
-\begin{tikzpicture}
-\begin{axis}[
-    title={Vertraging met percentuele sampling},
-    xlabel={Sampling frequentie},
-    ylabel={Vertraging (\%)},
-    xmin=0, xmax=0.6,
-    ymin=0, ymax=20,
-    xtick={0,0.0625,0.125,0.25,0.5},
-    ytick={0,5,10,15,20},
-    xticklabel style={/pgf/number format/.cd,frac,frac TeX=\displaystyle\frac},
-    legend pos=north west,
-    ymajorgrids=true,
-    grid style=dashed,
-    xlabel near ticks,
-    ylabel near ticks
-]
- 
-\addplot[
-    color=blue,
-    mark=square,
-    ]
-    coordinates {(0.0625,2.12)(0.125,4.12)(0.25,6.38)(0.5,9.4)};
- 
-\end{axis}
-\end{tikzpicture}
-\\\\
-
-Verder wordt verwacht dat de visualisatie van tracing en logging de meerwaarde van Zipkin en Kibana zou schetsen en de voor- en nadelen van tracing aangetoond worden in verschillende situaties. \\
+Voor de percentuele sampling wordt verwacht dat hoe hoger de sampling frequentie, hoe zwaarder het systeem belast zal worden. Bij andere situaties zal een complexere sampling strategie voordeliger zijn in vergelijking met een percentuele sampling. Verder wordt verwacht dat de visualisatie van tracing en logging de meerwaarde van Zipkin en Kibana zou schetsen en de voor- en nadelen van tracing aangetoond worden in verschillende situaties. \\
 
 %---------- Verwachte conclusies ----------------------------------------------
 \section{Verwachte conclusies}
 \label{sec:verwachte_conclusies}
 
-De verwachte conclusie is dat tracing onmisbaar is voor microservices en dit gestaafd is met uitgewerkte situaties in een opgestelde testomgeving. \\
+De verwachte conclusie is dat tracing, indien goed toegepast, een meerwaarde is voor microservices en dit gestaafd is met uitgewerkte situaties in een opgestelde testomgeving. \\
 
 %------------------------------------------------------------------------------
 % Referentielijst

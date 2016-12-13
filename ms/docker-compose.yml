@@ -6,21 +6,29 @@ services:
       - "8761:8761"
     expose:
       - "8761"
+    links:
+      - elk
   
   zipkin:
     image: bachproef/zipkin
     ports:
       - "9411:9411"
+    links:
+      - elk
   
   ms-service-1:
     image: bachproef/ms-service-1
     ports:
       - "::8080"
-      
+    links:
+      - elk
+    
   ms-service-2:
     image: bachproef/ms-service-2
     ports:
       - "::8080"
+    links:
+      - elk
       
   elk:
     image: sebp/elk
