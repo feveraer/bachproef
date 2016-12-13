@@ -10,7 +10,7 @@
         <port>24224</port>
     </appender>
 
-    <logger name="fluentd" level="info" additivity="false">
+    <logger name="fluentd" level="debug" additivity="false">
         <appender-ref ref="CONSOLE" />
         <appender-ref ref="FILE" />
         <appender-ref ref="FLUENT" />
