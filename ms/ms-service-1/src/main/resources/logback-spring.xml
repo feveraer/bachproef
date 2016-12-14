@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configuration>
+<configuration debug="true">
     <include resource="org/springframework/boot/logging/logback/base.xml"/>
     <!--<property name="FLUENTD_HOST" value="${FLUENTD_HOST:-192.168.99.100}"/>
     <property name="FLUENTD_PORT" value="${FLUENTD_PORT:-24224}"/>-->
@@ -10,9 +10,11 @@
         <port>24224</port>
     </appender>
 
-    <logger name="fluentd" level="debug" additivity="false">
+    <logger name="com.frederic" level="INFO" additivity="false">
         <appender-ref ref="CONSOLE" />
         <appender-ref ref="FILE" />
         <appender-ref ref="FLUENT" />
     </logger>
+
+
 </configuration>
