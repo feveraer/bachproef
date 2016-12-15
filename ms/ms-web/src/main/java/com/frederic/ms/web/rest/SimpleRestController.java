@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 @RestController
-@RequestMapping("/rest")
+@RequestMapping("/")
 public class SimpleRestController {
 
     private static final Logger logger = LoggerFactory.getLogger(SimpleRestController.class);
@@ -19,7 +19,7 @@ public class SimpleRestController {
     @Autowired
     private RestTemplate restTemplate;
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.GET)
     public String get() {
         ResponseEntity<String> service1Response =
                 restTemplate.exchange("http://ms-service-1:8080/rest/",
