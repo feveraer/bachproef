@@ -28,6 +28,11 @@ services:
     ports:
       - "9411:9411"
   
+  ms-web:
+    image: bachproef/ms-web
+    ports:
+      - "::8080"
+  
   ms-service-1:
     image: bachproef/ms-service-1
     ports:

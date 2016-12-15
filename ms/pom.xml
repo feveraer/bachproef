@@ -11,6 +11,7 @@
 		<module>ms-service-1</module>
 		<module>ms-service-2</module>
 		<module>zipkin</module>
+		<module>ms-web</module>
 	</modules>
 	<packaging>pom</packaging>
 

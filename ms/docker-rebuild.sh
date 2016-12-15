@@ -1,8 +1,8 @@
 #!/bin/bash
 
 MS="$1"
-SERVICES=("eureka" "ms-service-1" "ms-service-2" "zipkin")
-BUILD_DIRS=("eureka" "ms-service-1" "ms-service-2" "zipkin")
+SERVICES=("eureka" "ms-service-1" "ms-service-2" "zipkin" "ms-web")
+BUILD_DIRS=("eureka" "ms-service-1" "ms-service-2" "zipkin" "ms-web")
 
 if [[ -n "$MS" ]]; then
   for i in "${!SERVICES[@]}"; do
