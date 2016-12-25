@@ -5,7 +5,7 @@
 \chapter{Inleiding}
 \label{ch:inleiding}
 
-Monolithische architecturen ruimen steeds meer baan voor microservice architecturen of kortweg microservices. Een monolitische applicatie is gebouwd als een enkelvoudige, zelfstandige eeheid. Bij een client-server model, kan bijvoorbeeld de applicatie langs de server zijde bestaan uit een enkele applicatie die de HTTP requests behandelt, logica uitvoert en data ophaalt of bijwerkt in de database. Het grote probleem van monolitische applicaties is dat ze moeilijk te onderhouden zijn. Een kleine verandering in een bepaalde functionaliteit van de applicatie kan ervoor zorgen dat andere delen van de applicatie ook bijgewerkt moeten worden. De volledige applicatie moet opnieuw gebuild en gedeployed worden. Als een bepaalde functionaliteit gescaled moet worden, moet de volledige applicatie gescaled worden. Microservices bieden hiervoor een oplossing, aangezien de verschillende functionaliteiten elk een op zich zelf staande service kunnen vormen. \\
+Monolithische architecturen ruimen steeds meer baan voor microservice architecturen of kortweg microservices. Een monolitische applicatie is gebouwd als een enkelvoudige, zelfstandige eenheid. Bij een client-server model, kan bijvoorbeeld de applicatie langs de server zijde bestaan uit een enkele applicatie die de HTTP requests behandelt, logica uitvoert en data ophaalt of bijwerkt in de database. Het grote probleem van monolitische applicaties is dat ze moeilijk te onderhouden zijn. Een kleine verandering in een bepaalde functionaliteit van de applicatie kan ervoor zorgen dat andere delen van de applicatie ook bijgewerkt moeten worden. De volledige applicatie moet opnieuw gebuild en gedeployed worden. Als een bepaalde functionaliteit gescaled moet worden, moet de volledige applicatie gescaled worden. Microservices bieden hiervoor een oplossing, aangezien de verschillende functionaliteiten elk een op zich zelf staande service kunnen vormen. \\
 
 Bij microservices schieten echter de traditionele tools voor debugging tekort. Een enkele service kan niet het volledige beeld geven over bijvoorbeeld de performantie van de applicatie in zijn geheel. Om dit te verhelpen, kunnen requests getraced worden. Een trace is de volledige reisweg van een request die spans bevat voor alle doorkruiste microservices. Een span bestaat uit tags of metadata zoals de start- en stoptijdstippen. Deze data kan dan verzameld worden om een volledig beeld van het gedrag van de applicatie te geven. \\
 
@@ -21,6 +21,13 @@ Onderzoeken rond distributed tracing systemen zijn schaars, maar de technologieÃ
 
 \section{Probleemstelling en Onderzoeksvragen}
 \label{sec:onderzoeksvragen}
+
+\begin{itemize}
+\item Hoe kan tracing efficiÃ«nt toegepast worden, dus met zo weinig mogelijk overhead, bij microservices aan de hand van sampling?
+\item Hoe helpen Zipkin en Kibana bij het debugging proces?
+\item Welke logging shipper is performanter: Logstash of Fluentd?
+\item Fluent logger Fluency zou 4x sneller zijn dan de standaard java fluent-logger. Is dit altijd zo?
+\end{itemize}
 
 %% TODO:
 %% Uit je probleemstelling moet duidelijk zijn dat je onderzoek een meerwaarde

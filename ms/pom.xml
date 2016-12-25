@@ -10,6 +10,14 @@
 		<module>eureka</module>
 		<module>ms-service-1</module>
 		<module>ms-service-2</module>
+		<module>ms-service-3</module>
+		<module>ms-service-4</module>
+		<module>ms-service-5</module>
+		<module>ms-service-6</module>
+		<module>ms-service-7</module>
+		<module>ms-service-8</module>
+		<module>ms-service-9</module>
+		<module>ms-service-10</module>
 		<module>zipkin</module>
 		<module>ms-web</module>
 	</modules>
@@ -21,8 +29,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>1.4.1.RELEASE</version>
-		<relativePath/> <!-- lookup parent from repository -->
+		<version>1.4.3.RELEASE</version>
 	</parent>
 
 	<properties>
@@ -37,7 +44,14 @@
 			<dependency>
 				<groupId>org.springframework.cloud</groupId>
 				<artifactId>spring-cloud-dependencies</artifactId>
-				<version>Camden.SR1</version>
+				<version>Brixton.SR7</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-sleuth</artifactId>
+				<version>1.1.0.BUILD-SNAPSHOT</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
