@@ -18,6 +18,23 @@
 		<module>ms-service-8</module>
 		<module>ms-service-9</module>
 		<module>ms-service-10</module>
+		<module>ms-service-11</module>
+		<module>ms-service-12</module>
+		<module>ms-service-13</module>
+		<module>ms-service-14</module>
+		<module>ms-service-15</module>
+		<module>ms-service-16</module>
+		<module>ms-service-17</module>
+		<module>ms-service-18</module>
+		<module>ms-service-19</module>
+		<module>ms-service-20</module>
+		<module>ms-service-21</module>
+		<module>ms-service-22</module>
+		<module>ms-service-23</module>
+		<module>ms-service-24</module>
+		<module>ms-service-25</module>
+		<module>ms-service-26</module>
+		<module>ms-service-27</module>
 		<module>zipkin</module>
 		<module>ms-web</module>
 	</modules>
