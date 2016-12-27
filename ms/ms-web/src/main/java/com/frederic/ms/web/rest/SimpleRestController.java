@@ -6,6 +6,7 @@ import com.google.common.util.concurrent.MoreExecutors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.sleuth.SpanNamer;
 import org.springframework.cloud.sleuth.TraceCallable;
 import org.springframework.cloud.sleuth.Tracer;
@@ -26,6 +27,9 @@ public class SimpleRestController {
 
     private static final Logger logger = LoggerFactory.getLogger(SimpleRestController.class);
     private static final ListeningExecutorService executor = MoreExecutors.listeningDecorator(Executors.newCachedThreadPool());
+
+    @Value("${spring.application.name}")
+    private String serviceName;
 
     @Autowired
     private RestTemplate restTemplate;
@@ -93,8 +97,12 @@ public class SimpleRestController {
         ResponseEntity<String> service2Response = future2.get();
         ResponseEntity<String> service3Response = future3.get();
 
-        logger.info("ms-web: called service-1, service-2 and service-3");
-        return service1Response.getBody() + "\n" + service2Response.getBody() + "\n" + service3Response.getBody();
+        logger.info(serviceName + ": called service-1, service-2 and service-3");
+        StringBuilder sb = new StringBuilder(serviceName)
+                .append(" [").append(service1Response.getBody()).append("]\n[")
+                .append(service2Response.getBody()).append("]\n[")
+                .append(service3Response.getBody()).append("]");
+        return sb.toString();
     }
 
     private ResponseEntity<String> requestService(String serviceUrl) {

@@ -30,55 +30,196 @@ services:
   
   ms-web:
     image: bachproef/ms-web
+    environment:
+      JAVA_OPTS: -Xms256m -Xmx256m
     ports:
       - "::8080"
   
   ms-service-1:
     image: bachproef/ms-service-1
+    environment:
+      JAVA_OPTS: -Xms256m -Xmx256m
     ports:
       - "::8080"
     
   ms-service-2:
     image: bachproef/ms-service-2
+    environment:
+      JAVA_OPTS: -Xms256m -Xmx256m
     ports:
       - "::8080"
       
   ms-service-3:
     image: bachproef/ms-service-3
+    environment:
+      JAVA_OPTS: -Xms256m -Xmx256m
     ports:
       - "::8080"
 
   ms-service-4:
     image: bachproef/ms-service-4
+    environment:
+      JAVA_OPTS: -Xms256m -Xmx256m
     ports:
       - "::8080"
   
   ms-service-5:
     image: bachproef/ms-service-5
+    environment:
+      JAVA_OPTS: -Xms256m -Xmx256m
     ports:
       - "::8080"
       
   ms-service-6:
     image: bachproef/ms-service-6
+    environment:
+      JAVA_OPTS: -Xms256m -Xmx256m
     ports:
       - "::8080"
       
   ms-service-7:
     image: bachproef/ms-service-7
+    environment:
+      JAVA_OPTS: -Xms256m -Xmx256m
     ports:
       - "::8080"
       
   ms-service-8:
     image: bachproef/ms-service-8
+    environment:
+      JAVA_OPTS: -Xms256m -Xmx256m
     ports:
       - "::8080"
       
   ms-service-9:
     image: bachproef/ms-service-9
+    environment:
+      JAVA_OPTS: -Xms256m -Xmx256m
     ports:
       - "::8080"
       
   ms-service-10:
     image: bachproef/ms-service-10
+    environment:
+      JAVA_OPTS: -Xms256m -Xmx256m
+    ports:
+      - "::8080"
+  
+  ms-service-11:
+    image: bachproef/ms-service-11
+    environment:
+      JAVA_OPTS: -Xms256m -Xmx256m
+    ports:
+      - "::8080"
+      
+  ms-service-12:
+    image: bachproef/ms-service-12
+    environment:
+      JAVA_OPTS: -Xms256m -Xmx256m
+    ports:
+      - "::8080"
+      
+  ms-service-13:
+    image: bachproef/ms-service-13
+    environment:
+      JAVA_OPTS: -Xms256m -Xmx256m
+    ports:
+      - "::8080"
+      
+  ms-service-14:
+    image: bachproef/ms-service-14
+    environment:
+      JAVA_OPTS: -Xms256m -Xmx256m
+    ports:
+      - "::8080"
+      
+  ms-service-15:
+    image: bachproef/ms-service-15
+    environment:
+      JAVA_OPTS: -Xms256m -Xmx256m
+    ports:
+      - "::8080"
+      
+  ms-service-16:
+    image: bachproef/ms-service-16
+    environment:
+      JAVA_OPTS: -Xms256m -Xmx256m
+    ports:
+      - "::8080"
+      
+  ms-service-17:
+    image: bachproef/ms-service-17
+    environment:
+      JAVA_OPTS: -Xms256m -Xmx256m
+    ports:
+      - "::8080"
+      
+  ms-service-18:
+    image: bachproef/ms-service-18
+    environment:
+      JAVA_OPTS: -Xms256m -Xmx256m
+    ports:
+      - "::8080"
+      
+  ms-service-19:
+    image: bachproef/ms-service-19
+    environment:
+      JAVA_OPTS: -Xms256m -Xmx256m
+    ports:
+      - "::8080"
+      
+  ms-service-20:
+    image: bachproef/ms-service-20
+    environment:
+      JAVA_OPTS: -Xms256m -Xmx256m
+    ports:
+      - "::8080"
+      
+  ms-service-21:
+    image: bachproef/ms-service-21
+    environment:
+      JAVA_OPTS: -Xms256m -Xmx256m
+    ports:
+      - "::8080"
+      
+  ms-service-22:
+    image: bachproef/ms-service-22
+    environment:
+      JAVA_OPTS: -Xms256m -Xmx256m
+    ports:
+      - "::8080"
+      
+  ms-service-23:
+    image: bachproef/ms-service-23
+    environment:
+      JAVA_OPTS: -Xms256m -Xmx256m
+    ports:
+      - "::8080"
+      
+  ms-service-24:
+    image: bachproef/ms-service-24
+    environment:
+      JAVA_OPTS: -Xms256m -Xmx256m
+    ports:
+      - "::8080"
+      
+  ms-service-25:
+    image: bachproef/ms-service-25
+    environment:
+      JAVA_OPTS: -Xms256m -Xmx256m
+    ports:
+      - "::8080"
+      
+  ms-service-26:
+    image: bachproef/ms-service-26
+    environment:
+      JAVA_OPTS: -Xms256m -Xmx256m
+    ports:
+      - "::8080"
+      
+  ms-service-27:
+    image: bachproef/ms-service-27
+    environment:
+      JAVA_OPTS: -Xms256m -Xmx256m
     ports:
       - "::8080"
