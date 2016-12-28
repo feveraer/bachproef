@@ -13,7 +13,7 @@
 
 
 \section{Spring en Spring Boot}
-\label{ch:spring-boot}
+\label{sec:spring-boot}
 
 Dit onderzoek maakt gebruik van Spring Boot om microservices op te stellen. Het Spring framework staat bekend voor zijn Inversion of Control (IoC) principe, ook gekend als dependency injection. Dit betekent onder andere dat een object geannoteerd kan worden met \texttt{@Component} en Spring zal het object aanmaken, alle nodige velden vullen en het object toevoegen aan de context van de applicatie. Op deze manier is het mogelijk om verschillende objecten toe te voegen aan de context, zodat ze onderling gemakkelijk samenwerken. Het IoC principe vergemakklijkt hierdoor de manier om andere bibliotheken te integreren in de applicatie. \\
 
@@ -44,4 +44,15 @@ public class SampleController {
 \end{lstlisting}
 
 De \texttt{@Controller} annotatie zorgt ervoor dat de klasse gebruikt kan worden door Spring MVC om web requests te behandelen. Vanaf Spring 4.0 is het ook mogelijk om \texttt{@RestController} te gebruiken, die de annotaties \texttt{@Controller} en \texttt{@ResponseBody} combineert. De laatste annotatie is handig om \texttt{return} waarden van requests op te vangen in een zelfgedefinieerde Java klasse. \texttt{@EnableAutoConfiguration} zegt dat Spring Boot de applicatie automatisch moet configureren op basis van de toegevoegde bibliotheken. Ten slotte is er nog de \texttt{@RequestMapping} annotatie die Spring vertelt dat het pad \texttt{/} gemapped moet worden op de \texttt{home} methode. \\
+
+\section{Containerisatie met Docker}
+\label{sec:docker}
+
+Elke microservice, bijvoorbeeld een Spring Boot applicatie, kan door Docker uitgevoerd worden zijn eigen container. De verschillende containers zijn geïsoleerd van elkaar en delen enkel de minimale kernel van het besturingssysteem. Containers lijken op het eerste zicht op virtuele machines, in het opzicht dat beide geïsoleerde omgevingen zijn die beheerd worden door een controlerend proces: een container manager en hypervisor respectievelijk. Het grootste verschil tussen de twee is echter dat, voor elke virtuele machine, een volledige stack van componenten uitgevoerd dienen te worden: het besturingssysteem tot en met de applicatielaag en de virtuele hardware met netwerkkaarten, CPU's en geheugen. \\
+
+Containers daarentegen functioneren eerder als volledig geïsoleerde \textit{sandboxes}. De containers delen met elkaar de kernel van het besturingssysteem met de aanwezige systeembronnen. Dit betekent dat containers veel minder zwaar zijn op het onderliggende systeem, zodat meer containers uitgevoerd kunnen worden dan virtuele machines. Een belangrijke limitatie van containers is echter dat ze enkel uitgevoerd kunnen worden in Linux-gebaseerde besturingssystemen. Dit omdat Docker gebruik maakt van kernel isolatie, wat een specifieke Linux technologie is. \\
+
+Docker kan niet rechtstreeks uitgevoerd worden op Mac of Windows systemen, maar er is een eenvoudige workaround om dit te verhelpen: Docker Toolbox. Er zal eerst een Linux virtuele machine opgestart worden in VirtualBox, waarna de docker containers uitgevoerd kunnen worden in deze virtuele machine. \\
+
+
 
