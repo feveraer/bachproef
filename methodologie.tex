@@ -11,5 +11,37 @@
 %% mogelijke manier toegepast hebt om een antwoord te vinden op de
 %% onderzoeksvraag.
 
-\lipsum[21-25]
+
+\section{Spring en Spring Boot}
+\label{ch:spring-boot}
+
+Dit onderzoek maakt gebruik van Spring Boot om microservices op te stellen. Het Spring framework staat bekend voor zijn Inversion of Control (IoC) principe, ook gekend als dependency injection. Dit betekent onder andere dat een object geannoteerd kan worden met \texttt{@Component} en Spring zal het object aanmaken, alle nodige velden vullen en het object toevoegen aan de context van de applicatie. Op deze manier is het mogelijk om verschillende objecten toe te voegen aan de context, zodat ze onderling gemakkelijk samenwerken. Het IoC principe vergemakklijkt hierdoor de manier om andere bibliotheken te integreren in de applicatie. \\
+
+Spring Boot maakt het gemakkelijk om op zichzelf staande, productiewaardige Spring applicaties te maken waar het niet nodig is om veel aan de configuratie te sleutelen. Het mantra van Spring Boot is dan ook \textit{convention-over-configuration}. Dit is bijzonder handig voor microservices omdat bijvoorbeeld een eenvoudige REST applicatie aangemaakt kan worden in minder dan 20 lijnen code. \\
+
+\begin{lstlisting}[language=Java, caption=eenvoudige Spring Boot REST app]
+package hello;
+
+import org.springframework.boot.*;
+import org.springframework.boot.autoconfigure.*;
+import org.springframework.stereotype.*;
+import org.springframework.web.bind.annotation.*;
+
+@Controller
+@EnableAutoConfiguration
+public class SampleController {
+
+    @RequestMapping("/")
+    @ResponseBody
+    String home() {
+        return "Hello World!";
+    }
+
+    public static void main(String[] args) throws Exception {
+        SpringApplication.run(SampleController.class, args);
+    }
+}
+\end{lstlisting}
+
+De \texttt{@Controller} annotatie zorgt ervoor dat de klasse gebruikt kan worden door Spring MVC om web requests te behandelen. Vanaf Spring 4.0 is het ook mogelijk om \texttt{@RestController} te gebruiken, die de annotaties \texttt{@Controller} en \texttt{@ResponseBody} combineert. De laatste annotatie is handig om \texttt{return} waarden van requests op te vangen in een zelfgedefinieerde Java klasse. \texttt{@EnableAutoConfiguration} zegt dat Spring Boot de applicatie automatisch moet configureren op basis van de toegevoegde bibliotheken. Ten slotte is er nog de \texttt{@RequestMapping} annotatie die Spring vertelt dat het pad \texttt{/} gemapped moet worden op de \texttt{home} methode. \\
 
