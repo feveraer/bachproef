@@ -54,5 +54,23 @@ Containers daarentegen functioneren eerder als volledig geïsoleerde \textit{san
 
 Docker kan niet rechtstreeks uitgevoerd worden op Mac of Windows systemen, maar er is een eenvoudige workaround om dit te verhelpen: Docker Toolbox. Er zal eerst een Linux virtuele machine opgestart worden in VirtualBox, waarna de docker containers uitgevoerd kunnen worden in deze virtuele machine. \\
 
+\section{Tracing}
+\label{sec:tracing}
+
+Een van de uitdagingen in een microservice omgeving is om het overzicht te bewaren hoe alle verschillende services met elkaar samenwerken. Omdat elke service onafhankelijk is van de volgende, is het moeilijker om het gedrag van het volledige systeem te controleren. Zoals eerder vermeld in \ref{ch:inleiding} kan tracing hierbij helpen en omdat het gaat over tracing in een microservice systeem, spreekt men ook over distributed tracing. \\
+
+\subsection{Spring Cloud Sleuth}
+\label{sec:sleuth}
+
+Spring Cloud biedt een aantal bibliotheken aan zoals Config (een plaats om configuraties van verschillende microservices te beheren), Netflix (Netflix OSS integraties voor Spring Boot apps zoals Eureka) en dus ook Sleuth. Sleuth is een distributed tracing oplossing die concepten van Dapper, Zipkin en HTrace leent. \\
+
+Een trace ziet er bij Sleuth uit zoals bij Dapper. Het bevat een trace id dat gevormd wordt wanneer de eerste request gemaakt wordt. Voor elke service die de request doorkruist, wordt een span id toegekend voor die service en toegevoegd aan de trace. Sleuth voegt die id's toe aan de headers in de request response. (invoegen voorbeeld trace, met trace id en span id headers) De eerste span van een trace kent dezelfde id als de trace. \\
+
+Sleuth voegt de trace en span id's ook toe aan de logging voor de microservice. Dit ziet er zo uit: \texttt{[my-service-id,73b62c0f90d11e06,73b62c0f90d11e06,false]}. \texttt{my-service-id} is de naam van de service, de eerste id duidt de trace aan, de volgende is de span en de laatste waarde geeft aan of de span geëxporteerd dient te worden naar Zipkin. \\
+
+\subsection{Zipkin}
+\label{sec:zipkin}
+
+Om de traces die Sleuth aanbiedt te verzamelen en te analyseren, komt Zipkin goed van pas. Sleuth heeft de mogelijkheid om tracing informatie te sturen naar een Zipkin server door de dependency \texttt{spring-cloud-sleuth-zipkin} toe te voegen aan de applicatie. Sleuth gaat er standaard vanuit dat de Zipkin server loopt op \texttt{http://localhost:9411}. De locatie kan echter aangepast worden door \texttt{spring.zipkin.baseUrl} toe te voegen aan de applicatie eigenschappen (application.properties). \\
 
 
