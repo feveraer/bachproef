@@ -25,11 +25,63 @@ De Spring Cloud Sleuth bibliotheek wordt toegevoegd aan de ms-web en ms-service-
 
 Elke microservice krijgt zijn eigen Docker container, die allemaal tegelijk worden opgestart met Docker Compose, dankzij het toevoegen van een docker-compose.yml script (bijlage) die alle service definities bevat. \\
 
+De microservices communiceren asynchroon met elkaar, zodat de ene service niet hoeft te wachten op de andere. Dit verbetert de responstijd. Vergelijk (include img sync traces) met (include img sync traces). Om de asynchrone communicatie tussen services mogelijk te maken wordt gebruik gemaakt van \texttt{ListenableFuture} van guava (Google Core libraries voor Java) in combinatie met \texttt{TraceCallable} van Sleuth. \texttt{TraceCallable} is een wrapper van Sleuth voor een Java \texttt{Callable} die tracing informatie toevoegt. Een gewone \texttt{Callable} voert een taak uit op een andere thread en geeft een resultaat terug.
+
+\begin{lstlisting}[language=Java, caption=Asynchrone REST communicatie]
+@RestController
+@RequestMapping("/")
+public class SimpleRestController {
+    private static final ListeningExecutorService executor = MoreExecutors.listeningDecorator(Executors.newCachedThreadPool());
+    
+    @Autowired
+    private RestTemplate restTemplate;
+
+    @Autowired
+    private Tracer tracer;
+
+    @Autowired
+    private SpanNamer spanNamer;
+
+    @RequestMapping(method = RequestMethod.GET)
+    public String get() throws ExecutionException, InterruptedException {
+        Callable<ResponseEntity<String>> callable1 = new Callable<ResponseEntity<String>>() {
+            @Override
+            public ResponseEntity<String> call() throws Exception {
+                return requestService("http://ms-service-1:8080/rest/");
+            }
+        };
+        Callable<ResponseEntity<String>> traceCallable1 = new TraceCallable<>
+                (tracer, spanNamer, callable1, "get_service_1");
+
+        ListenableFuture<ResponseEntity<String>> future1 = executor.submit(traceCallable1);
+
+        ...
+
+        // wait for results
+        ResponseEntity<String> service1Response = future1.get();
+        
+        ...
+        
+        return serviceResponse.getBody();
+    }
+
+    private ResponseEntity<String> requestService(String serviceUrl) {
+        return restTemplate.exchange(serviceUrl, HttpMethod.GET, null, String.class);
+    }
+
+}
+\end{lstlisting}
+
+Een \texttt{Tracer} en een \texttt{SpanNamer} worden geïnjecteerd door Sleuth en een \texttt{RestTemplate} door Spring. Omdat Sleuth automatisch tracing informatie toevoegt aan een \texttt{RestTemplate}, moet dit niet verder geconfigureerd worden.
+
 \subsection{Sampling strategieën en performantieverschillen}
 \label{sec:sampling}
 
 Er wordt onderzocht wat voor overhead het toevoegen van tracing informatie met zich meebrengt op de drie verschillende testopstellingen (zie \ref{sec:opzetten}). Omdat Sleuth gebaseerd is op Dapper, wordt bekeken hoe verschillende sampling strategieën de performantie beïnvloeden. Uit \autocite{Sigelman2010} blijkt immers dat verzameling van traces de grootste invloed kan hebben op vertragingen in het netwerk bij het maken van requests. \\
 
 Met een gesampelde trace wordt bedoeld dat de trace gemarkeerd is om verzameld te worden. In dit onderzoek betekent dit dat Sleuth een gesampelde trace zal doorsturen naar de Zipkin server. \\
+
+\subsubsection{Percentuele sampling}
+\label{sec:percentuele-sampling}
 
 
