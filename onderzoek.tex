@@ -3,4 +3,33 @@
 %%=============================================================================
 
 \chapter{Onderzoek}
+\label{ch:onderzoek}
+
+\section{Methodologie}
+\label{sec:methodologie}
+
+\subsection{Opzetten microservices}
+\label{sec:opzetten}
+
+De opstelling kent de volgende microservices:
+\begin{itemize}
+\item eureka: service discovery
+\item zipkin: Zipkin server voor tracing
+\item ms-web: Spring Boot app die root microservice voorstelt
+\item ms-service-n: Spring Boot app voor bijkomende microservices 
+\end{itemize}
+
+Dit onderzoekt bekijkt drie verschillende opstellingen, geonderscheid op complexiteit, om de tracing performantie na te gaan. De setup met lage complexiteit kent in totaal 4 microservices en 2 niveau's (include img), de setup met gemiddelde complexiteit kent 11 microservices en 3 niveau's (include img) en de setup met hoge complexiteit kent 28 microservices en 4 niveau's (include img). \\
+
+De Spring Cloud Sleuth bibliotheek wordt toegevoegd aan de ms-web en ms-service-n microservices, zodat deze services tracing info doorsturen naar de zipkin server. \\
+
+Elke microservice krijgt zijn eigen Docker container, die allemaal tegelijk worden opgestart met Docker Compose, dankzij het toevoegen van een docker-compose.yml script (bijlage) die alle service definities bevat. \\
+
+\subsection{Sampling strategieën en performantieverschillen}
+\label{sec:sampling}
+
+Er wordt onderzocht wat voor overhead het toevoegen van tracing informatie met zich meebrengt op de drie verschillende testopstellingen (zie \ref{sec:opzetten}). Omdat Sleuth gebaseerd is op Dapper, wordt bekeken hoe verschillende sampling strategieën de performantie beïnvloeden. Uit \autocite{Sigelman2010} blijkt immers dat verzameling van traces de grootste invloed kan hebben op vertragingen in het netwerk bij het maken van requests. \\
+
+Met een gesampelde trace wordt bedoeld dat de trace gemarkeerd is om verzameld te worden. In dit onderzoek betekent dit dat Sleuth een gesampelde trace zal doorsturen naar de Zipkin server. \\
+
 
