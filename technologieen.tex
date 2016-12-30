@@ -36,7 +36,7 @@ public class SampleController {
 }
 \end{lstlisting}
 
-De \texttt{@Controller} annotatie zorgt ervoor dat de klasse gebruikt kan worden door Spring MVC om web requests te behandelen. Vanaf Spring 4.0 is het ook mogelijk om \texttt{@RestController} te gebruiken, die de annotaties \texttt{@Controller} en \texttt{@ResponseBody} combineert. De laatste annotatie is handig om \texttt{return} waarden van requests op te vangen in een zelfgedefinieerde Java klasse. \texttt{@EnableAutoConfiguration} zegt dat Spring Boot de applicatie automatisch moet configureren op basis van de toegevoegde bibliotheken. Ten slotte is er nog de \texttt{@RequestMapping} annotatie die Spring vertelt dat het pad \texttt{/} gemapped moet worden op de \texttt{home} methode.
+De \texttt{@Controller} annotatie zorgt ervoor dat de klasse gebruikt kan worden door Spring MVC om web requests te behandelen. \texttt{@RestController} kan vanaf Spring 4.0 gebruikt worden, deze combineert de annotaties \texttt{@Controller} en \texttt{@ResponseBody}. De laatste annotatie is handig om \texttt{return} waarden van requests op te vangen in een zelfgedefinieerde Java klasse. \texttt{@EnableAutoConfiguration} zegt dat Spring Boot de applicatie automatisch moet configureren op basis van de toegevoegde bibliotheken. Ten slotte is er nog de \texttt{@RequestMapping} annotatie die Spring vertelt dat het pad \texttt{/} gemapped moet worden op de \texttt{home} methode.
 
 \section{Containerisatie met Docker}
 \label{sec:docker}
