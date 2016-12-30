@@ -167,4 +167,94 @@ Dit onderzoek gaat na welke performantiegevolgen verschillende sampling percenta
 \end{axis}
 \end{tikzpicture}
 
-Voor de hoge complexiteit setup blijkt dat tracing vanaf ...
+Voor de hoge complexiteit setup blijkt dat tracing vanaf 50\% sampling frequentie en bij hoog netwerkverkeer een grote stijging kent in responstijd ten opzichte van de responstijd bij 10\% sampling. De responstijd stijgt van 41,2 ms naar 78,3 ms voor 50\% sampling en 81,2 ms voor 100\% sampling.
+
+\begin{tikzpicture}
+\begin{axis}[
+    title={Sampling performantie in gemiddelde complexiteit setup},
+    xlabel={Sampling frequentie},
+    ylabel={Gemiddelde responstijd (ms)},
+    xmin=0, xmax=1.1,
+    ymin=0, ymax=20,
+    xtick={0, 0.1, 0.5, 1},
+    ytick={0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20},
+    %xticklabel style={/pgf/number format/.cd,frac,frac TeX=\displaystyle\frac},
+    legend pos=outer north east,
+    ymajorgrids=true,
+    grid style=dashed,
+    xlabel near ticks,
+    ylabel near ticks
+]
+ 
+\addplot[
+    color=green,
+    mark=square,
+    ]
+    coordinates {(0.1,12.482)(0.5,13.398)(1,15.514)};
+    
+\addplot[
+    color=blue,
+    mark=square,
+    ]
+    coordinates {(0.1,13.109)(0.5,14.249)(1,14.948)};
+    
+\addplot[
+    color=red,
+    mark=square,
+    ]
+    coordinates {(0.1,13.158)(0.5,14.153)(1,16.325)};
+
+\addlegendentry{laag netwerkverkeer}
+\addlegendentry{gemiddeld netwerkverkeer}
+\addlegendentry{hoog netwerkverkeer}
+\end{axis}
+\end{tikzpicture}
+
+...
+
+\begin{tikzpicture}
+\begin{axis}[
+    title={Sampling performantie in lage complexiteit setup},
+    xlabel={Sampling frequentie},
+    ylabel={Gemiddelde responstijd (ms)},
+    xmin=0, xmax=1.1,
+    ymin=0, ymax=20,
+    xtick={0, 0.1, 0.5, 1},
+    ytick={0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20},
+    %xticklabel style={/pgf/number format/.cd,frac,frac TeX=\displaystyle\frac},
+    legend pos=outer north east,
+    ymajorgrids=true,
+    grid style=dashed,
+    xlabel near ticks,
+    ylabel near ticks
+]
+ 
+\addplot[
+    color=green,
+    mark=square,
+    ]
+    coordinates {(0.1,4.225)(0.5,4.875)(1,4.08)};
+    
+\addplot[
+    color=blue,
+    mark=square,
+    ]
+    coordinates {(0.1,4.685)(0.5,5.477)(1,4.802)};
+    
+\addplot[
+    color=red,
+    mark=square,
+    ]
+    coordinates {(0.1,8.535)(0.5,10.964)(1,5.531)};
+
+\addlegendentry{laag netwerkverkeer}
+\addlegendentry{gemiddeld netwerkverkeer}
+\addlegendentry{hoog netwerkverkeer}
+\end{axis}
+\end{tikzpicture}
+
+...
+
+\subsection{Logging}
+
+...
