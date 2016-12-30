@@ -7,6 +7,10 @@
 \usepackage{courier}
 \usepackage{listings}
 \usepackage{color}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usepackage{graphicx}
+\graphicspath{ {img/} }
 
 \input{structure}
 
@@ -44,6 +48,8 @@ Zipkin}
 %  - tweede zit  = 3e examenperiode => 3
 \newcommand{\examenperiode}{1}
 
+\let\OldTexttt\texttt
+\renewcommand{\texttt}[1]{\small\OldTexttt{#1}\normalsize}
 %%=============================================================================
 %% Inhoud document
 %%=============================================================================
