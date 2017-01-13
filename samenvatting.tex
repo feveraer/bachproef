@@ -38,3 +38,18 @@
 
 \chapter*{\IfLanguageName{dutch}{Samenvatting}{Abstract}}
 
+In een microservice architectuur is het vaak moeilijk om het overzicht te bewaren op het volledige systeem. Een oplossing hiervoor is tracing. In dit onderzoek wordt specifiek gekeken naar Spring Boot microservices en hoe performant het is om tracing toe te voegen met behulp van Sleuth en Zipkin. Het debuggen van microservices ligt vaak ook niet voor de hand. Om dit aan te pakken kan gebruik gemaakt worden van enkele logging tools, waar in dit onderzoek de performantie van twee log verzamelaars met elkaar vergeleken worden.
+
+In dit onderzoek worden de volgende twee vragen beantwoord:
+\begin{itemize}
+\item Wat zijn de performantiegevolgen die tracing met zich meedraagt in een Spring Boot microservices omgeving? Hoe kan sampling hierbij helpen?
+\item Om logs van een Spring Boot microservice naar ElasticSearch te sturen worden Logstash en Fluentd bekeken. Is er een performantieverschil?
+\end{itemize}
+
+Het onderzoek werd uitgevoerd op 3 verschillende opstellingen: een lage complexiteit setup, een gemiddelde en een hoge. Voor de details zie figuren \ref{fig:lc_dependencies}, \ref{fig:mc_dependencies} en \ref{fig:hc_dependencies}. Elke setup werd getest met laag tot hoog netwerkverkeer.
+
+De verwachting was dat tracing het systeem wel degelijk extra zou belasten, maar het was voor dit onderzoek nog onduidelijk hoe dit zou zijn in een Spring Boot omgeving met Sleuth en Zipkin. Het resultaat van dit onderzoek was dat het toevoegen van tracing het systeem wel degelijk extra belast, maar dit enkel op te merken zal zijn in een hoge complexiteit setup met hoog netwerkverkeer. In dat geval werd genoteerd dat het instelling van een sampling frequentie lager als 50\% de performantie sterk verbetert.
+
+De verwachtingen voor performantie van Logstash tegenover Fluentd in een Spring Boot omgeving waren voor dit onderzoek compleet onduidelijk. Het resultaat van dit onderzoek was dat in een Spring Boot omgeving Fluentd iets performanter is dan Logstash. Het verzamelen van logs met Logstash of Fluentd heeft niet zo'n grote impact op de performantie van het volledige systeem.
+
+

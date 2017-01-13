@@ -2,7 +2,7 @@
 %% Onderzoek
 %%=============================================================================
 
-\chapter{Onderzoek}
+\chapter{Praktische uitwerking}
 \label{ch:onderzoek}
 
 \section{Methodologie}
@@ -13,28 +13,34 @@
 
 De opstelling kent de volgende microservices:
 \begin{itemize}
-\item eureka: service discovery
+\item eureka: service discovery, opdat de microservices intern met elkaar kunnen communiceren
 \item zipkin: Zipkin server voor tracing
 \item ms-web: Spring Boot app die root microservice voorstelt
 \item ms-service-n: Spring Boot app voor bijkomende microservices (n staat voor een cijfer van 1 t.e.m. 27)
 \end{itemize}
 
-Dit onderzoekt bekijkt drie verschillende opstellingen, geonderscheid op complexiteit, om de tracing performantie na te gaan. De setup met lage complexiteit kent in totaal 4 microservices en 2 niveau's.
+Dit onderzoekt bekijkt drie verschillende opstellingen, geonderscheid op complexiteit, om de tracing performantie na te gaan. De setup met lage complexiteit kent in totaal 4 microservices en 2 niveau's (zie figuur \ref{fig:lc_dependencies}).
 \begin{figure}[h]
+\caption{Lage complexiteit setup}
 \includegraphics{ms_lc_dependencies}
+\label{fig:lc_dependencies}
 \end{figure}
-De setup met gemiddelde complexiteit kent 11 microservices en 3 niveau's.
+De setup met gemiddelde complexiteit kent 11 microservices en 3 niveau's (zie figuur \ref{fig:mc_dependencies}).
 \begin{figure}[h]
+\caption{Gemiddelde complexiteit setup}
 \includegraphics[scale=0.5]{ms_dependencies}
+\label{fig:mc_dependencies}
 \end{figure}
-De setup met hoge complexiteit kent 28 microservices en 4 niveau's. 
+De setup met hoge complexiteit kent 28 microservices en 4 niveau's (zie figuur \ref{fig:hc_dependencies}). Een request naar ms-web zal dus, afhankelijk van de setup, meerdere interne requests maken naar andere microservices. Er wordt per opstelling onderzocht wat voor performantiegevolgen tracing met zich meedraagt.
 \begin{figure}[h]
+\caption{Hoge complexiteit setup}
 \includegraphics[scale=0.5]{ms_hc_dependencies}
+\label{fig:hc_dependencies}
 \end{figure}
 
 De Spring Cloud Sleuth bibliotheek wordt toegevoegd aan de ms-web en ms-service-n microservices, zodat deze services tracing info doorsturen naar de zipkin server.
 
-Elke microservice krijgt zijn eigen Docker container, die allemaal tegelijk worden opgestart met Docker Compose, dankzij het toevoegen van een docker-compose.yml script (bijlage) die alle service definities bevat.
+Elke microservice krijgt zijn eigen Docker container, die allemaal tegelijk worden opgestart met Docker Compose~\autocite{DockerCompose2015}, dankzij het toevoegen van een docker-compose.yml script, die alle service definities bevat.
 
 De microservices communiceren asynchroon met elkaar, zodat de ene service niet hoeft te wachten op de andere. Dit verbetert de responstijd. Vergelijk figuur \ref{fig:sync_rest} met figuur \ref{fig:async_rest}.
 
@@ -101,7 +107,7 @@ public class SimpleRestController {
 
 Een \texttt{Tracer} en een \texttt{SpanNamer} worden geïnjecteerd door Sleuth en een \texttt{RestTemplate} door Spring. Omdat Sleuth automatisch tracing informatie toevoegt aan een \texttt{RestTemplate}, moet dit niet verder geconfigureerd worden.
 
-\subsection{Sampling strategieën en performantieverschillen}
+\section{Sampling strategieën en performantieverschillen}
 \label{sec:sampling}
 
 Er wordt onderzocht wat voor overhead het toevoegen van tracing informatie met zich meebrengt op de drie verschillende testopstellingen (zie \ref{sec:opzetten}). Omdat Sleuth gebaseerd is op Dapper, wordt bekeken hoe verschillende sampling strategieën de performantie beïnvloeden. Uit \autocite{Sigelman2010} blijkt immers dat verzameling van traces de grootste invloed kan hebben op vertragingen in het netwerk bij het maken van requests.
@@ -210,8 +216,6 @@ Voor de hoge complexiteit setup blijkt dat tracing vanaf 50\% sampling frequenti
 \end{axis}
 \end{tikzpicture}
 
-...
-
 \begin{tikzpicture}
 \begin{axis}[
     title={Sampling performantie in lage complexiteit setup},
@@ -245,7 +249,7 @@ Voor de hoge complexiteit setup blijkt dat tracing vanaf 50\% sampling frequenti
     color=red,
     mark=square,
     ]
-    coordinates {(0.1,8.535)(0.5,10.964)(1,5.531)};
+    coordinates {(0.1,8.535)(0.5,10.964)(1,12.428)};
 
 \addlegendentry{laag netwerkverkeer}
 \addlegendentry{gemiddeld netwerkverkeer}
@@ -253,8 +257,162 @@ Voor de hoge complexiteit setup blijkt dat tracing vanaf 50\% sampling frequenti
 \end{axis}
 \end{tikzpicture}
 
-...
+Voor de gemiddelde en lage complexiteit opstellingen heeft de sampling frequentie slechts een minimale impact op de totale performantie van het systeem.
 
-\subsection{Logging}
+\section{Logging}
 
-...
+Voor de logging worden er 4 extra microservices toegevoegd aan de testopstelling: ElasticSearch, Logstash, Fluentd en Kibana.
+
+Om ervoor te zorgen dat de logs van ms-web en ms-service-n verzameld worden door Logstash of Fluentd wordt gebruik gemaakt van de Logback configuratie van Spring Boot, waar wordt aangegeven waar de Logstash of Fluentd server zich bevindt.
+
+\begin{lstlisting}[language=Java, basicstyle=\ttfamily\scriptsize, caption=Voorbeeld Fluentd logback configuratie]
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/base.xml"/>
+    <property name="FLUENTD_HOST" value="${FLUENTD_HOST:-192.168.99.100}"/>
+    <property name="FLUENTD_PORT" value="${FLUENTD_PORT:-24224}"/>
+    <appender name="FLUENT" class="ch.qos.logback.more.appenders.DataFluentAppender">
+        <tag>dab</tag>
+        <label>normal</label>
+        <remoteHost>${FLUENTD_HOST}</remoteHost>
+        <port>${FLUENTD_PORT}</port>
+    </appender>
+
+    <logger name="com.frederic" level="INFO" additivity="false">
+        <appender-ref ref="CONSOLE" />
+        <appender-ref ref="FILE" />
+        <appender-ref ref="FLUENT" />
+    </logger>
+
+</configuration>
+\end{lstlisting}
+
+Voor Logstash dient de logstash-logback-encoder bibliotheek toegevoegd te worden aan elke microservice waarvan logging verzameld wilt worden. Voor Fluentd dienen de logback-more-appenders en fluent-logger bibliotheken toegevoegd te worden.
+
+Er wordt onderzocht wat voor performantiegevolgen de verzameling van logs van de microservices naar ElasticSearch met zich meedraagt. De log shippers Logstash en Fluentd worden met elkaar vergeleken.  Er wordt hier ook gebruik gemaakt van de ab tool om de responstijd te testen.
+
+\begin{tikzpicture}
+\begin{axis}[
+    title={Logging performantie in hoge complexiteit setup},
+    xlabel={Concurrency (aantal verbindingen tegelijk)},
+    ylabel={Gemiddelde responstijd (ms)},
+    xmin=0, xmax=1000,
+    ymin=0, ymax=100,
+    xtick={20, 200, 1000},
+    ytick={0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100},
+    %xticklabel style={/pgf/number format/.cd,frac,frac TeX=\displaystyle\frac},
+    legend pos=outer north east,
+    ymajorgrids=true,
+    grid style=dashed,
+    xlabel near ticks,
+    ylabel near ticks
+]
+ 
+\addplot[
+    color=green,
+    mark=square,
+    ]
+    coordinates {(20,32.62)(200,33.75)(1000,41.19)};
+    
+\addplot[
+    color=blue,
+    mark=square,
+    ]
+    coordinates {(20,46.22)(200,45.97)(1000,51.66)};
+    
+\addplot[
+    color=red,
+    mark=square,
+    ]
+    coordinates {(20,42.55)(200,44.1)(1000,50.37)};
+
+\addlegendentry{zonder logging}
+\addlegendentry{Logstash}
+\addlegendentry{Fluentd}
+\end{axis}
+\end{tikzpicture}
+
+\begin{tikzpicture}
+\begin{axis}[
+    title={Logging performantie in gemiddelde complexiteit setup},
+    xlabel={Concurrency (aantal verbindingen tegelijk)},
+    ylabel={Gemiddelde responstijd (ms)},
+    xmin=0, xmax=1000,
+    ymin=0, ymax=20,
+    xtick={20, 200, 1000},
+    ytick={0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20},
+    %xticklabel style={/pgf/number format/.cd,frac,frac TeX=\displaystyle\frac},
+    legend pos=outer north east,
+    ymajorgrids=true,
+    grid style=dashed,
+    xlabel near ticks,
+    ylabel near ticks
+]
+ 
+\addplot[
+    color=green,
+    mark=square,
+    ]
+    coordinates {(20,10.5)(200,12.36)(1000,14.87)};
+    
+\addplot[
+    color=blue,
+    mark=square,
+    ]
+    coordinates {(20,12.43)(200,15.98)(1000,17.14)};
+    
+\addplot[
+    color=red,
+    mark=square,
+    ]
+    coordinates {(20,10.9)(200,13.14)(1000,15.42)};
+
+\addlegendentry{zonder logging}
+\addlegendentry{Logstash}
+\addlegendentry{Fluentd}
+\end{axis}
+\end{tikzpicture}
+
+\begin{tikzpicture}
+\begin{axis}[
+    title={Logging performantie in lage complexiteit setup},
+    xlabel={Concurrency (aantal verbindingen tegelijk)},
+    ylabel={Gemiddelde responstijd (ms)},
+    xmin=0, xmax=1000,
+    ymin=0, ymax=20,
+    xtick={20, 200, 1000},
+    ytick={0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20},
+    %xticklabel style={/pgf/number format/.cd,frac,frac TeX=\displaystyle\frac},
+    legend pos=outer north east,
+    ymajorgrids=true,
+    grid style=dashed,
+    xlabel near ticks,
+    ylabel near ticks
+]
+ 
+\addplot[
+    color=green,
+    mark=square,
+    ]
+    coordinates {(20,4.18)(200,4.91)(1000,5.26)};
+    
+\addplot[
+    color=blue,
+    mark=square,
+    ]
+    coordinates {(20,6.2)(200,7.8)(1000,8.63)};
+    
+\addplot[
+    color=red,
+    mark=square,
+    ]
+    coordinates {(20,5.9)(200,6.14)(1000,7.42)};
+
+\addlegendentry{zonder logging}
+\addlegendentry{Logstash}
+\addlegendentry{Fluentd}
+\end{axis}
+\end{tikzpicture}
+
+In alle complexiteitsopstellingen worden slechts kleine performantiegevolgen genoteerd door het toevoegen van logging aggregatie. Fluentd kent over alle opstellingen heen een iets betere performantie dan Logstash, maar het verschil blijft miniem. Beide log shippers kennen een goede performantie bij een laag tot hoog netwerkverkeer.
+

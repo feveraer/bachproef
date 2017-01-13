@@ -11,6 +11,7 @@
 \usepackage{pgfplots}
 \usepackage{graphicx}
 \graphicspath{ {img/} }
+\usepackage[final]{pdfpages}
 
 \input{structure}
 
@@ -37,7 +38,7 @@
 Zipkin}
 
 % Datum van indienen (gebruik telkens de deadline, ook al geef je eerder af)
-\newcommand{\datum}{17 januari 2017}
+\newcommand{\datum}{13 januari 2017}
 
 % Academiejaar
 \newcommand{\academiejaar}{2016-2017}
@@ -92,6 +93,10 @@ Zipkin}
 \input{onderzoek}
 
 \input{conclusie}
+
+\chapter*{Bijlagen}
+
+\includepdf[pages=-,pagecommand={},width=\textwidth]{voorstel.pdf}
 
 %%---------- Back matter ------------------------------------------------------
 

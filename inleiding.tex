@@ -9,7 +9,7 @@ Monolithische architecturen ruimen steeds meer baan voor microservice architectu
 
 Bij microservices schieten echter de traditionele tools voor debugging tekort. Een enkele service kan niet het volledige beeld geven over bijvoorbeeld de performantie van de applicatie in zijn geheel. Om dit te verhelpen, kunnen requests getraced worden. Een trace is de volledige reisweg van een request die spans bevat voor alle doorkruiste microservices. Een span bestaat uit tags of metadata zoals de start- en stoptijdstippen. Deze data kan dan verzameld worden om een volledig beeld van het gedrag van de applicatie te geven.
 
-De bedoeling van dit onderzoek is om de meerwaarde van tracing in microservices aan te tonen en ook om eventuele tekortkomingen vast te stellen. Er wordt specifiek gekeken naar tracing van requests met behulp van Spring Cloud Sleuth en Zipkin. In de praktijk gaat men niet alle requests gaan tracen om onnodige overhead te vermijden. Beslissen welke requests getraced worden en welke niet wordt sampling genoemd. Wat kunnen bijvoorbeeld enkele interessante use cases zijn waarbij er op een intelligente manier gesampled kan worden? Ten slotte visualiseert Zipkin enkel de verschillende traces, maar niet de log berichten, deze worden dan ook nog niet verzameld. Om logs te verzamelen en visualiseren wordt gekeken naar ElasticSearch, Logstash en Kibana. Er wordt aangetoond hoe deze tools in combinatie met Zipkin helpen om de complexiteit van microservices in bedwang te houden.
+De bedoeling van dit onderzoek is om de meerwaarde van tracing in microservices aan te tonen en ook om eventuele tekortkomingen vast te stellen. Er wordt specifiek gekeken naar tracing van requests met behulp van Spring Cloud Sleuth en Zipkin. In de praktijk gaat men niet alle requests gaan tracen om onnodige overhead te vermijden. Beslissen welke requests getraced worden en welke niet wordt sampling genoemd. Wat kunnen bijvoorbeeld enkele interessante use cases zijn waarbij er op een intelligente manier gesampled kan worden? Ten slotte visualiseert Zipkin enkel de verschillende traces, maar niet de log berichten, deze worden dan ook nog niet verzameld. Om logs te verzamelen en visualiseren wordt gekeken naar ElasticSearch, Logstash / Fluentd en Kibana. Er wordt aangetoond hoe deze tools in combinatie met Zipkin helpen om de complexiteit van microservices in bedwang te houden.
 
 \section{Stand van zaken}
 \label{sec:stand-van-zaken}
@@ -23,8 +23,6 @@ Onderzoeken rond distributed tracing systemen zijn schaars, maar de technologieÃ
 \label{sec:onderzoeksvragen}
 
 Het is voorlopig nog onduidelijk welke performantiegevolgen tracing met zich meedraagt in een Spring Boot microservices omgeving. Deze worden in dit onderzoek bekeken door de sampling van Sleuth in te stellen.
-
-Zipkin geeft tracing informatie, maar niet de logs. Hoe helpt Kibana hierbij?
 
 Om logs van een Spring Boot microservice naar ElasticSearch te sturen worden Logstash en Fluentd bekeken. Is er een performantieverschil?
 
@@ -48,8 +46,6 @@ Om logs van een Spring Boot microservice naar ElasticSearch te sturen worden Log
 De rest van deze bachelorproef is als volgt opgebouwd:
 
 In Hoofdstuk~\ref{ch:technologie} worden de gebruikte technologieÃ«n in dit onderzoek besproken.
-
 In Hoofdstuk~\ref{ch:onderzoek} wordt de methodologie toegelicht en worden antwoorden gezocht op de onderzoeksvragen.
-
-In Hoofdstuk~\ref{ch:conclusie}, tenslotte, wordt de conclusie gegeven en een antwoord geformuleerd op de onderzoeksvragen. Daarbij wordt ook een aanzet gegeven voor toekomstig onderzoek binnen dit domein.
+In Hoofdstuk~\ref{ch:conclusie}, wordt tenslotte de conclusie gegeven en een antwoord geformuleerd op de onderzoeksvragen.
 
